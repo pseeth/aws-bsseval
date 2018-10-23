@@ -1,0 +1,17 @@
+service: aws-bsseval # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: python3.6
+
+functions:
+  bsseval:
+    handler: handler.main
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    slim: true
+    dockerizePip: true
