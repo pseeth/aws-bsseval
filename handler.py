@@ -35,7 +35,7 @@ def main(event, context):
     bucket.put_object(Key=results_key,
                       Body=scores.json)
     print("Deleting original audio")
-    bucket.delete_key(file_key)
+    s3.Object(source_bucket, file_key).delete()
 
     return scores.json
 
