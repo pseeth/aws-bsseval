@@ -13,13 +13,33 @@ provider:
 functions:
   bsseval:
     handler: handler.main
-	events:
+    events:
       - s3:
-        bucket: aws-bsseval
-        event: s3:ObjectCreated:*
-        rules:
-          - prefix: uploads/
-          - suffix: .zip
+          bucket: bsseval
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploads/
+            - suffix: .zip
+
+resources:
+  Resources:
+    S3BucketBsseval:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: bsseval
+        # add additional custom bucket configuration here
+    BssevalLambdaPermissionBssevalS3:
+      Type: "AWS::Lambda::Permission"
+      Properties:
+        FunctionName:
+          "Fn::GetAtt":
+            - BssevalLambdaFunction
+            - Arn
+        Principal: "s3.amazonaws.com"
+        Action: "lambda:InvokeFunction"
+        SourceAccount:
+          Ref: AWS::AccountId
+        SourceArn: "arn:aws:s3:::bsseval"
 
 plugins:
   - serverless-python-requirements
