@@ -3,10 +3,23 @@ service: aws-bsseval # NOTE: update this with your service name
 provider:
   name: aws
   runtime: python3.6
+  timeout: 900
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:* 
+      Resource: "*"
 
 functions:
   bsseval:
     handler: handler.main
+	events:
+      - s3:
+        bucket: aws-bsseval
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: uploads/
+          - suffix: .zip
 
 plugins:
   - serverless-python-requirements
