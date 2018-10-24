@@ -7,9 +7,9 @@ import boto3
 from subprocess import call
 import argparse
 
-s3 = boto3.resource('s3', region='us-east-1')
-s3_client = boto3.client('s3', region='us-east-1')
-ec2_client = boto3.client('ec2', region='us-east-1')
+s3 = boto3.resource('s3', Region='us-east-1')
+s3_client = boto3.client('s3', Region='us-east-1')
+ec2_client = boto3.client('ec2', Region='us-east-1')
 
 ec2_init_script = """
     #!/bin/bash
@@ -116,4 +116,4 @@ if __name__ == "__main__":
     source_bucket = args.source_bucket
     file_key = args.file_key
 
-    run_on_ec2(source_bucket, file_key)
+    run(source_bucket, file_key)
