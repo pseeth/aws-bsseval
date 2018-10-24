@@ -61,7 +61,7 @@ def run(source_bucket, file_key):
     s3.Object(source_bucket, file_key).delete()
     clear_temp()
 
-def run_on_ec2(source_bucket, file_key):
+def run_on_ec2(source_bucket, file_key, instance_type='t3.large'):
     ec2_init_script = """
         #!/bin/bash
         cd ~
@@ -83,7 +83,7 @@ def run_on_ec2(source_bucket, file_key):
     print("Running \n %s \n on EC2" % ec2_init_script)
     instance = ec2_client.run_instances(
         ImageId='ami-01103c7b',
-        InstanceType='t3.large',
+        InstanceType=instance_type,
         MinCount=1,
         MaxCount=1,
         InstanceInitiatedShutdownBehavior='terminate',
@@ -107,13 +107,24 @@ def main(event, context):
     else:
         run(source_bucket, file_key)
 
+def process_remaining_on_local(source_bucket):
+    bucket = s3.Bucket(source_bucket)
+    for object in bucket.objects.all():
+        if 'uploads' in object.key and '.zip' in object.key:
+            print('Processing %s on local' % object.key)
+            run(source_bucket, object.key)
+    return
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source_bucket")
-    parser.add_argument("--file_key")
+    parser.add_argument("--source_bucket", default='bsseval')
+    parser.add_argument("--file_key", default='uploads/test.zip')
+    parser.add_argument("--process_remaining_on_local", action='store_true')
     args = parser.parse_args()
-
     source_bucket = args.source_bucket
     file_key = args.file_key
 
-    run(source_bucket, file_key)
+    if args.process_remaining_on_local:
+        process_remaining_on_local(source_bucket)
+    else:
+        run(source_bucket, file_key)
