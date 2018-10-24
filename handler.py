@@ -6,6 +6,7 @@ import os
 import boto3
 from subprocess import call
 import argparse
+import urllib
 
 s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
@@ -35,8 +36,7 @@ def setup(event):
     clear_temp()
     source_bucket = event['Records'][0]['s3']['bucket']['name']
     file_key = event['Records'][0]['s3']['object']['key']
-    file_key = file_key.replace('+', ' ')
-    file_key = file_key.replace('%27', "'")
+    file_key = urllib.parse.unquote_plus(file_key)
     return source_bucket, file_key
 
 def download_and_unzip(source_bucket, file_key, zip_path):
@@ -100,9 +100,10 @@ def run_on_ec2(source_bucket, file_key):
 
 def main(event, context):
     source_bucket, file_key = setup(event)
+    print(source_bucket, file_key)
     response = s3_client.head_object(Bucket=source_bucket, Key=file_key)
     size = float(response['ContentLength']) / 1e6
-    if size > 80:
+    if size > 100:
         print("Audio files are too big for Lambda, moving computation to EC2.")
         run_on_ec2(source_bucket, file_key)
     else:
