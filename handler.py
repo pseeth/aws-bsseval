@@ -12,22 +12,6 @@ s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
 ec2_client = boto3.client('ec2', region_name='us-east-1')
 
-ec2_init_script = """
-    #!/bin/bash
-    cd ~
-    virtualenv -p python36 aws
-    source aws/bin/activate
-    sudo yum install -y git
-    git clone https://github.com/pseeth/aws-bsseval
-    source aws/bin/activate
-    cd aws-bsseval
-    git pull origin master
-    pip install -r requirements.txt
-    pip install boto3
-    python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY
-    sudo poweroff
-"""
-
 
 def clear_temp():
     call('rm -rf /tmp/*', shell=True)
@@ -78,13 +62,28 @@ def run(source_bucket, file_key):
     clear_temp()
 
 def run_on_ec2(source_bucket, file_key):
-    global ec2_init_script
+    ec2_init_script = """
+        #!/bin/bash
+        cd ~
+        virtualenv -p python36 aws
+        source aws/bin/activate
+        sudo yum install -y git
+        git clone https://github.com/pseeth/aws-bsseval
+        source aws/bin/activate
+        cd aws-bsseval
+        git pull origin master
+        pip install -r requirements.txt
+        pip install boto3
+        python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY
+        sudo poweroff
+    """
+
     ec2_init_script = ec2_init_script.replace('SOURCE_BUCKET', '"' + source_bucket + '"')
     ec2_init_script = ec2_init_script.replace('FILE_KEY', '"' + file_key + '"')
     print("Running \n %s \n on EC2" % ec2_init_script)
     instance = ec2_client.run_instances(
         ImageId='ami-01103c7b',
-        InstanceType='t2.medium',
+        InstanceType='t3.medium',
         MinCount=1,
         MaxCount=1,
         InstanceInitiatedShutdownBehavior='terminate',
