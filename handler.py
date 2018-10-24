@@ -108,4 +108,4 @@ if __name__ == "__main__":
     source_bucket = args.source_bucket
     file_key = args.file_key
 
-    run_on_ec2(source_bucket, file_key)
+    run(source_bucket, file_key)
