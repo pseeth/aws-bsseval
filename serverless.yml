@@ -4,10 +4,15 @@ provider:
   name: aws
   runtime: python3.6
   timeout: 900
+  memorySize: 3008
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:* 
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - ec2:RunInstances
       Resource: "*"
 
 functions:
