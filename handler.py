@@ -9,17 +9,21 @@ import argparse
 
 s3 = boto3.resource('s3')
 s3_client = boto3.client('s3')
-ec2_client = boto3.client('ec2', region_name='us-east-1')
+ec2_client = boto3.client('ec2')
 
 ec2_init_script = """
     #!/bin/bash
+    cd ~
+    virtualenv -p python36 aws
+    source aws/bin/activate
+    sudo yum install -y git
+    git clone https://github.com/pseeth/aws-bsseval
     source aws/bin/activate
     cd aws-bsseval
     git pull origin master
     pip install -r requirements.txt
     pip install boto3
-    python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY
-    sudo poweroff
+    python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY > ~/log.txt
 """
 
 
@@ -78,16 +82,18 @@ def run_on_ec2(source_bucket, file_key):
     ec2_init_script = ec2_init_script.replace('FILE_KEY', '"' + file_key + '"')
     print("Running \n %s \n on EC2" % ec2_init_script)
     instance = ec2_client.run_instances(
-        ImageId='ami-053589147a6a09c82',
+        ImageId='ami-01103c7b',
         InstanceType='t2.medium',
         MinCount=1,
         MaxCount=1,
         InstanceInitiatedShutdownBehavior='terminate',
+        KeyName='aws',
         UserData=ec2_init_script,
         IamInstanceProfile={
             #'Arn': "arn:aws:sts::237978708207:assumed-role/ec2-s3/i-07df688387ef3f061",
             'Name': 'ec2-s3'
-        }
+        },
+        SecurityGroupIds=['launch-wizard-1']
     )
     print("Created instance: %s" % instance['Instances'][0]['InstanceId'])
 
@@ -110,4 +116,4 @@ if __name__ == "__main__":
     source_bucket = args.source_bucket
     file_key = args.file_key
 
-    run(source_bucket, file_key)
+    run_on_ec2(source_bucket, file_key)
