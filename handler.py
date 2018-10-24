@@ -91,7 +91,6 @@ def run_on_ec2(source_bucket, file_key):
         KeyName='aws',
         UserData=ec2_init_script,
         IamInstanceProfile={
-            #'Arn': "arn:aws:sts::237978708207:assumed-role/ec2-s3/i-07df688387ef3f061",
             'Name': 'ec2-s3'
         },
         SecurityGroupIds=['launch-wizard-1']
@@ -103,7 +102,7 @@ def main(event, context):
     print(source_bucket, file_key)
     response = s3_client.head_object(Bucket=source_bucket, Key=file_key)
     size = float(response['ContentLength']) / 1e6
-    if size > 100:
+    if size > 75:
         print("Audio files are too big for Lambda, moving computation to EC2.")
         run_on_ec2(source_bucket, file_key)
     else:
