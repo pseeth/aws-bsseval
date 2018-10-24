@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c38344e-ab1f-43f9-9603-067ff640a688" name="Default Changelist" comment="actually works!">
-      <change afterPath="$PROJECT_DIR$/.idea/aws-bsseval.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1c38344e-ab1f-43f9-9603-067ff640a688" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,7 +21,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="gitignore" value="1" />
+          <entry key="gitignore" value="2" />
           <entry key="py" value="2" />
           <entry key="sh" value="1" />
           <entry key="txt" value="1" />
@@ -34,25 +31,25 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Bash" value="1" />
-          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="PLAIN_TEXT" value="3" />
           <entry key="Python" value="2" />
           <entry key="YAML" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="gitignore" value="15" />
-          <entry key="py" value="3265" />
+          <entry key="gitignore" value="21" />
+          <entry key="py" value="3271" />
           <entry key="sh" value="22" />
-          <entry key="txt" value="56" />
+          <entry key="txt" value="62" />
           <entry key="yml" value="209" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Bash" value="22" />
-          <entry key="PLAIN_TEXT" value="71" />
-          <entry key="Python" value="3265" />
+          <entry key="PLAIN_TEXT" value="83" />
+          <entry key="Python" value="3271" />
           <entry key="YAML" value="209" />
         </counts>
       </usages-collector>
@@ -66,15 +63,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="110" column="32" lean-forward="true" selection-start-line="110" selection-start-column="32" selection-end-line="110" selection-end-column="32" />
+            <state relative-caret-position="469">
+              <caret line="102" column="38" lean-forward="true" selection-start-line="102" selection-start-column="38" selection-end-line="102" selection-end-column="38" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <marker date="1540357789145" expanded="true" signature="464:467" ph="..." />
-                <marker date="1540357789145" expanded="true" signature="861:1107" ph="..." />
-                <marker date="1540357789145" expanded="true" signature="1644:1646" ph="..." />
-                <marker date="1540357789145" expanded="true" signature="2931:2932" ph="..." />
+                <marker date="1540358107025" expanded="true" signature="464:467" ph="..." />
+                <marker date="1540358107025" expanded="true" signature="861:1107" ph="..." />
+                <marker date="1540358107025" expanded="true" signature="1644:1646" ph="..." />
+                <marker date="1540358107025" expanded="true" signature="2932:2933" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="14">
+              <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -82,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ec2_setup.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+            <state relative-caret-position="42">
+              <caret line="3" column="23" lean-forward="true" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -130,11 +136,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/secret_keys.py" />
         <option value="$PROJECT_DIR$/serverless.yml" />
         <option value="$PROJECT_DIR$/ec2_setup.sh" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/handler.py" />
       </list>
     </option>
@@ -231,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540356943760</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="whoops">
+      <created>1540357810983</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1540357810983</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -239,7 +252,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" sideWeight="0.5013774" side_tool="true" weight="0.24892704" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4986226" weight="0.35545722" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4986226" visible="true" weight="0.016452074" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -273,16 +286,10 @@
     <MESSAGE value="works!" />
     <MESSAGE value="actually works!" />
     <MESSAGE value="generalizing to any server" />
-    <option name="LAST_COMMIT_MESSAGE" value="generalizing to any server" />
+    <MESSAGE value="whoops" />
+    <option name="LAST_COMMIT_MESSAGE" value="whoops" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/serverless.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -304,23 +311,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14">
+          <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ec2_setup.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        <state relative-caret-position="42">
+          <caret line="3" column="23" lean-forward="true" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="110" column="32" lean-forward="true" selection-start-line="110" selection-start-column="32" selection-end-line="110" selection-end-column="32" />
+        <state relative-caret-position="469">
+          <caret line="102" column="38" lean-forward="true" selection-start-line="102" selection-start-column="38" selection-end-line="102" selection-end-column="38" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <marker date="1540357789145" expanded="true" signature="464:467" ph="..." />
-            <marker date="1540357789145" expanded="true" signature="861:1107" ph="..." />
-            <marker date="1540357789145" expanded="true" signature="1644:1646" ph="..." />
-            <marker date="1540357789145" expanded="true" signature="2931:2932" ph="..." />
+            <marker date="1540358107025" expanded="true" signature="464:467" ph="..." />
+            <marker date="1540358107025" expanded="true" signature="861:1107" ph="..." />
+            <marker date="1540358107025" expanded="true" signature="1644:1646" ph="..." />
+            <marker date="1540358107025" expanded="true" signature="2932:2933" ph="..." />
           </folding>
         </state>
       </provider>
