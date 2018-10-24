@@ -54,7 +54,7 @@ def evaluate(file_key, file_name):
     estimate_dir = os.path.join(base_path, 'estimates')
     compute_permutation = 'permute' in file_key
 
-    print("Evaluating estimates with permutation: %s" % str(compute_permutation))
+    print("Evaluating reference_dir (%s) and estimates_dir (%s) with permutation: %s" % (reference_dir, estimate_dir, str(compute_permutation)))
     scores = eval_dir(reference_dir,
                       estimate_dir,
                       compute_permutation=compute_permutation,
