@@ -83,7 +83,7 @@ def run_on_ec2(source_bucket, file_key):
     print("Running \n %s \n on EC2" % ec2_init_script)
     instance = ec2_client.run_instances(
         ImageId='ami-01103c7b',
-        InstanceType='t3.medium',
+        InstanceType='t3.large',
         MinCount=1,
         MaxCount=1,
         InstanceInitiatedShutdownBehavior='terminate',
