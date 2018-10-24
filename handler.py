@@ -7,9 +7,9 @@ import boto3
 from subprocess import call
 import argparse
 
-s3 = boto3.resource('s3')
-s3_client = boto3.client('s3')
-ec2_client = boto3.client('ec2')
+s3 = boto3.resource('s3', region='us-east-1')
+s3_client = boto3.client('s3', region='us-east-1')
+ec2_client = boto3.client('ec2', region='us-east-1')
 
 ec2_init_script = """
     #!/bin/bash
@@ -23,7 +23,7 @@ ec2_init_script = """
     git pull origin master
     pip install -r requirements.txt
     pip install boto3
-    python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY > ~/log.txt
+    python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY
 """
 
 
@@ -101,7 +101,7 @@ def main(event, context):
     source_bucket, file_key = setup(event)
     response = s3_client.head_object(Bucket=source_bucket, Key=file_key)
     size = float(response['ContentLength']) / 1e6
-    if size > 100:
+    if size > 80:
         print("Audio files are too big for Lambda, moving computation to EC2.")
         run_on_ec2(source_bucket, file_key)
     else:

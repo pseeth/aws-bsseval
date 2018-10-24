@@ -12,7 +12,7 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
-        - ec2:RunInstances
+        - ec2:*
       Resource: "*"
 
 functions:
