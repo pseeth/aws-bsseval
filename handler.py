@@ -16,6 +16,8 @@ ec2_init_script = """
     source aws/bin/activate
     cd aws-bsseval
     git pull origin master
+    pip install -r requirements.txt
+    pip install boto3
     python handler.py --source_bucket SOURCE_BUCKET --file_key FILE_KEY
     sudo poweroff
 """
