@@ -52,10 +52,13 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
         metrics = sdr_permutation_search(mix, references, estimates)
     else:
         raise ValueError("Only permutation search currently implemented")
-        
 
-    results = {'s1': {'sdr': metrics[0,0], 'sir': metrics[0,1], 'sar': metrics[0,2]},
-               's2': {'sdr': metrics[1,0], 'sir': metrics[1,1], 'sar': metrics[1,2]}}
+    results = {}
+    for i in range(len(references)):
+        results['s' + str(i)] = {'sdr': metrics[i,0],
+                                 'sir': metrics[i,1],
+                                 'sar': metrics[i,2]}
+
     return results
 
 def evaluate(file_key, file_name):
