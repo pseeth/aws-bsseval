@@ -33,17 +33,28 @@ def download_and_unzip(source_bucket, file_key, zip_path):
     zip_ref.close()
     return bucket
 
+def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
+    
+    return
+
 def evaluate(file_key, file_name):
     base_path = os.path.join('/tmp', file_name[:-4])
     reference_dir = os.path.join(base_path, 'references')
     estimate_dir = os.path.join(base_path, 'estimates')
     compute_permutation = 'permute' in file_key
+    use_si_sdr = 'si_sdr' in file_key
 
     print("Evaluating reference_dir (%s) and estimates_dir (%s) with permutation: %s" % (reference_dir, estimate_dir, str(compute_permutation)))
-    scores = eval_dir(reference_dir,
-                      estimate_dir,
-                      compute_permutation=compute_permutation,
-                      mode='v4')
+
+    if use_si_sdr:
+        print("Using local SI-SDR")
+        scores = eval_si_sdr(reference_dir, estimate_dir, compute_permutation)
+    else:
+        print("Using BSSEval v4 from museval")
+        scores = eval_dir(reference_dir,
+                          estimate_dir,
+                          compute_permutation=compute_permutation,
+                          mode='v4')
     print(scores)
     return scores
 
@@ -101,7 +112,7 @@ def main(event, context):
     print(source_bucket, file_key)
     response = s3_client.head_object(Bucket=source_bucket, Key=file_key)
     size = float(response['ContentLength']) / 1e6
-    if size > 75:
+    if size > 50:
         print("Audio files are too big for Lambda, moving computation to EC2.")
         run_on_ec2(source_bucket, file_key)
     else:
