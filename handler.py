@@ -42,8 +42,8 @@ def download_and_unzip(source_bucket, file_key, zip_path):
     return bucket
 
 def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
-    references = [_load_audio(os.path.join(reference_dir, f))[0] for f in reference_dir]
-    estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in reference_dir]
+    references = [_load_audio(os.path.join(reference_dir, f))[0] for f in sorted(os.listdir(reference_dir))]
+    estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in sorted(os.listdir(estimate_dir))]
 
     references = np.stack(references).T
     estimates = np.stack(estimates).T
@@ -53,7 +53,7 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
         #do a thing
     else:
         sdr, sir, sar = get_sdr_no_perm_speech(estimates, references)
-        
+
     results = {'json': (sdr, sir, sar)}
     return results
 
