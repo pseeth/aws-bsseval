@@ -12,6 +12,14 @@ s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
 ec2_client = boto3.client('ec2', region_name='us-east-1')
 
+def _load_audio(file_path):
+    #loading audio for SI-SDR
+    rate, audio = wavfile.read(file_path)
+    if len(audio.shape) >= 1:
+        #SI-SDR only works with mono signals
+        audio = audio[0]
+    audio = audio.astype(np.float32, order='C') / 32768.0
+    return audio, rate
 
 def clear_temp():
     call('rm -rf /tmp/*', shell=True)
@@ -34,7 +42,12 @@ def download_and_unzip(source_bucket, file_key, zip_path):
     return bucket
 
 def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
-    
+    references = [_load_audio(os.path.join(reference_dir, f)) for f in reference_dir]
+    estimates = [_load_audio(os.path.join(estimate_dir, f)) for f in reference_dir]
+
+    references = np.stack(references)
+    estimates = np.stack(estimates)
+
     return
 
 def evaluate(file_key, file_name):
