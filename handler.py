@@ -7,6 +7,7 @@ import boto3
 from subprocess import call
 import argparse
 import urllib
+from si_sdr import get_sdr_no_perm_speech
 
 s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
