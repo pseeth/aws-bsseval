@@ -45,10 +45,17 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
     references = [_load_audio(os.path.join(reference_dir, f))[0] for f in reference_dir]
     estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in reference_dir]
 
-    references = np.stack(references)
-    estimates = np.stack(estimates)
+    references = np.stack(references).T
+    estimates = np.stack(estimates).T
 
-    return
+    if compute_permutation:
+        pass
+        #do a thing
+    else:
+        sdr, sir, sar = get_sdr_no_perm_speech(estimates, references)
+        
+    results = {'json': (sdr, sir, sar)}
+    return results
 
 def evaluate(file_key, file_name):
     base_path = os.path.join('/tmp', file_name[:-4])
