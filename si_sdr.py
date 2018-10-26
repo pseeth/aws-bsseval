@@ -53,10 +53,11 @@ def compute_measures(estimated_signal, reference_signals, j, scaling=True):
 
 
 # Time domain signals
-mix_sig = np.random.rand(10 * 8000)s
-estimated_sig = np.random.rand(10 * 8000)
-reference_sig = np.random.rand(10 * 8000)
-residual_sig = mix_sig - reference_sig
+if __name__ == '__main__':
+    mix_sig = np.random.rand(10 * 8000)s
+    estimated_sig = np.random.rand(10 * 8000)
+    reference_sig = np.random.rand(10 * 8000)
+    residual_sig = mix_sig - reference_sig
 
-sdr, sir, sar = get_sdr_no_perm_speech(estimated_sig, np.stack([reference_sig, residual_sig]).T)
-print(sdr, sir, sar)
+    sdr, sir, sar = get_sdr_no_perm_speech(estimated_sig, np.stack([reference_sig, residual_sig]).T)
+    print(sdr, sir, sar)
