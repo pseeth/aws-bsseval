@@ -7,7 +7,7 @@ import boto3
 from subprocess import call
 import argparse
 import urllib
-from si_sdr import get_sdr_no_perm_speech
+from si_sdr import sdr_permutation_search
 
 s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
@@ -46,16 +46,16 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
     references = [_load_audio(os.path.join(reference_dir, f))[0] for f in sorted(os.listdir(reference_dir))]
     estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in sorted(os.listdir(estimate_dir))]
 
-    references = np.stack(references).T
-    estimates = np.stack(estimates).T
+    mix = np.sum(np.stack(references), axis=0)
 
     if compute_permutation:
-        pass
-        #do a thing
+        metrics = sdr_permutation_search(mix, references, estimates)
     else:
-        sdr, sir, sar = get_sdr_no_perm_speech(estimates, references)
+        raise ValueError("Only permutation search currently implemented")
+        
 
-    results = {'json': (sdr, sir, sar)}
+    results = {'s1': {'sdr': metrics[0,0], 'sir': metrics[0,1], 'sar': metrics[0,2]},
+               's2': {'sdr': metrics[1,0], 'sir': metrics[1,1], 'sar': metrics[1,2]}}
     return results
 
 def evaluate(file_key, file_name):
