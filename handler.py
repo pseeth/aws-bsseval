@@ -42,8 +42,8 @@ def download_and_unzip(source_bucket, file_key, zip_path):
     return bucket
 
 def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
-    references = [_load_audio(os.path.join(reference_dir, f)) for f in reference_dir]
-    estimates = [_load_audio(os.path.join(estimate_dir, f)) for f in reference_dir]
+    references = [_load_audio(os.path.join(reference_dir, f))[0] for f in reference_dir]
+    estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in reference_dir]
 
     references = np.stack(references)
     estimates = np.stack(estimates)
