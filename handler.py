@@ -8,17 +8,21 @@ from subprocess import call
 import argparse
 import urllib
 from si_sdr import sdr_permutation_search
+from scipy.io import wavfile
 
 s3 = boto3.resource('s3', region_name='us-east-1')
 s3_client = boto3.client('s3', region_name='us-east-1')
 ec2_client = boto3.client('ec2', region_name='us-east-1')
 
 def _load_audio(file_path):
+    print(file_path)
     #loading audio for SI-SDR
     rate, audio = wavfile.read(file_path)
-    if len(audio.shape) >= 1:
+    print(audio.shape)
+    if len(audio.shape) > 1:
         #SI-SDR only works with mono signals
         audio = audio[0]
+    print(audio.shape)
     audio = audio.astype(np.float32, order='C') / 32768.0
     return audio, rate
 
@@ -47,6 +51,9 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
     estimates = [_load_audio(os.path.join(estimate_dir, f))[0] for f in sorted(os.listdir(estimate_dir))]
 
     mix = np.sum(np.stack(references), axis=0)
+    print([x.shape for x in references])
+    print([x.shape for x in estimates])
+    print(mix.shape)
 
     if compute_permutation:
         metrics = sdr_permutation_search(mix, references, estimates)
@@ -55,11 +62,10 @@ def eval_si_sdr(reference_dir, estimate_dir, compute_permutation):
 
     results = {}
     for i in range(len(references)):
-        results['s' + str(i)] = {'sdr': metrics[i,0],
-                                 'sir': metrics[i,1],
-                                 'sar': metrics[i,2]}
-
-    return results
+        results['s' + str(i+1)] = {'SDR': metrics[i,0],
+                                 'SIR': metrics[i,1],
+                                 'SAR': metrics[i,2]}
+    return json.dumps(results)
 
 def evaluate(file_key, file_name):
     base_path = os.path.join('/tmp', file_name[:-4])
@@ -73,13 +79,16 @@ def evaluate(file_key, file_name):
     if use_si_sdr:
         print("Using local SI-SDR")
         scores = eval_si_sdr(reference_dir, estimate_dir, compute_permutation)
+        print(scores)
     else:
         print("Using BSSEval v4 from museval")
         scores = eval_dir(reference_dir,
                           estimate_dir,
                           compute_permutation=compute_permutation,
                           mode='v4')
-    print(scores)
+        print(scores)
+        scores = scores.json
+
     return scores
 
 def run(source_bucket, file_key):
@@ -91,7 +100,7 @@ def run(source_bucket, file_key):
     results_key = os.path.join('results', file_name[:-4] + '.json')
     print("Saving results")
     bucket.put_object(Key=results_key,
-                      Body=scores.json)
+                      Body=scores)
     print("Deleting original audio")
     s3.Object(source_bucket, file_key).delete()
     clear_temp()
